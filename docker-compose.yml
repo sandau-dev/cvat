@@ -151,7 +151,7 @@ services:
     depends_on: *backend-deps
     environment:
       <<: [*backend-env, *clickhouse-env]
-      NUMPROCS: 2
+      NUMPROCS: 4
     command: run worker.export
     volumes:
       - cvat_data:/home/django/data
