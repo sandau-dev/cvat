@@ -103,7 +103,7 @@ services:
         PathPrefix(`/api/`, `/static/`, `/admin`, `/documentation/`, `/django-rq`)
       - traefik.http.routers.cvat.entrypoints=web
     volumes:
-      - cvat_data:/home/django/data
+      - ${CVAT_DATA_MNT_PATH}:/home/django/data
       - cvat_keys:/home/django/keys
       - cvat_logs:/home/django/logs
     networks:
@@ -122,7 +122,7 @@ services:
       NUMPROCS: 1
     command: run utils
     volumes:
-      - cvat_data:/home/django/data
+      - ${CVAT_DATA_MNT_PATH}:/home/django/data
       - cvat_keys:/home/django/keys
       - cvat_logs:/home/django/logs
     networks:
@@ -138,7 +138,7 @@ services:
       NUMPROCS: 2
     command: run worker.import
     volumes:
-      - cvat_data:/home/django/data
+      - ${CVAT_DATA_MNT_PATH}:/home/django/data
       - cvat_keys:/home/django/keys
       - cvat_logs:/home/django/logs
     networks:
@@ -154,7 +154,7 @@ services:
       NUMPROCS: 4
     command: run worker.export
     volumes:
-      - cvat_data:/home/django/data
+      - ${CVAT_DATA_MNT_PATH}:/home/django/data
       - cvat_keys:/home/django/keys
       - cvat_logs:/home/django/logs
     networks:
@@ -170,7 +170,7 @@ services:
       NUMPROCS: 1
     command: run worker.annotation
     volumes:
-      - cvat_data:/home/django/data
+      - ${CVAT_DATA_MNT_PATH}:/home/django/data
       - cvat_keys:/home/django/keys
       - cvat_logs:/home/django/logs
     networks:
@@ -186,7 +186,7 @@ services:
       NUMPROCS: 1
     command: run worker.webhooks
     volumes:
-      - cvat_data:/home/django/data
+      - ${CVAT_DATA_MNT_PATH}:/home/django/data
       - cvat_keys:/home/django/keys
       - cvat_logs:/home/django/logs
     networks:
@@ -202,7 +202,7 @@ services:
       NUMPROCS: 1
     command: run worker.quality_reports
     volumes:
-      - cvat_data:/home/django/data
+      - ${CVAT_DATA_MNT_PATH}:/home/django/data
       - cvat_keys:/home/django/keys
       - cvat_logs:/home/django/logs
     networks:
@@ -218,7 +218,7 @@ services:
       NUMPROCS: 2
     command: run worker.analytics_reports
     volumes:
-      - cvat_data:/home/django/data
+      - ${CVAT_DATA_MNT_PATH}:/home/django/data
       - cvat_keys:/home/django/keys
       - cvat_logs:/home/django/logs
     networks:
@@ -401,7 +401,6 @@ services:
 
 volumes:
   cvat_db:
-  cvat_data:
   cvat_keys:
   cvat_logs:
   cvat_inmem_db:
