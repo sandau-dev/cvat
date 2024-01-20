@@ -23,7 +23,7 @@ from cvat_sdk.api_client.models import *
 # Set up an API client
 # Read Configuration class docs for more info about parameters and authentication methods
 configuration = Configuration(
-    host = "https://asbuilt.cvat.sandau.dev",
+    host = os.environ["CVAT_HOST"],
     username = os.environ["CVAT_ADMIN_USERNAME"],
     password = os.environ["CVAT_ADMIN_PASSWORD"],
 )
@@ -36,44 +36,44 @@ with open('scripts/users.csv') as csvfile:
         print(row['username'], row['email'], row['password1'], row['password2'], row['first_name'], row['last_name'], row['groups'], row['is_staff'], row['is_superuser'], row['is_active'], row['organization'], row['org_role'])
 
         with ApiClient(configuration) as api_client:
-        #     # Create a new user
-        #     register_serializer_ex_request = RegisterSerializerExRequest(
-        #         username=row['username'],
-        #         email=row['email'],
-        #         password1=row['password1'],
-        #         password2=row['password2'],
-        #         first_name=row['first_name'],
-        #         last_name=row['last_name'],
-        #     ) # RegisterSerializerExRequest |
+            # Create a new user
+            register_serializer_ex_request = RegisterSerializerExRequest(
+                username=row['username'],
+                email=row['email'],
+                password1=row['password1'],
+                password2=row['password2'],
+                first_name=row['first_name'],
+                last_name=row['last_name'],
+            ) # RegisterSerializerExRequest |
 
-        #     try:
-        #         (data, response) = api_client.auth_api.create_register(
-        #             register_serializer_ex_request,)
-        #         pprint(data)
-        #     except exceptions.ApiException as e:
-        #         print("Exception when calling AuthApi.create_register(): %s\n" % e)
+            try:
+                (data, response) = api_client.auth_api.create_register(
+                    register_serializer_ex_request,)
+                pprint(data)
+            except exceptions.ApiException as e:
+                print("Exception when calling AuthApi.create_register(): %s\n" % e)
 
-        #     # Update the user's permissions
-        #     id = 1 + idx # int | A unique integer value identifying this user.
-        #     patched_user_request = PatchedUserRequest(
-        #         username=row['username'],
-        #         first_name=row['first_name'],
-        #         last_name=row['last_name'],
-        #         email=row['email'],
-        #         groups=[group for group in row['groups'].split(',')],
-        #         is_staff=bool(row['is_staff']),
-        #         is_superuser=bool(row['is_superuser']),
-        #         is_active=bool(row['is_active']),
-        #     ) # PatchedUserRequest |  (optional)
+            # Update the user's permissions
+            id = 1 + idx # int | A unique integer value identifying this user.
+            patched_user_request = PatchedUserRequest(
+                username=row['username'],
+                first_name=row['first_name'],
+                last_name=row['last_name'],
+                email=row['email'],
+                groups=[group for group in row['groups'].split(',')],
+                is_staff=bool(row['is_staff']),
+                is_superuser=bool(row['is_superuser']),
+                is_active=bool(row['is_active']),
+            ) # PatchedUserRequest |  (optional)
 
-        #     try:
-        #         (data, response) = api_client.users_api.partial_update(
-        #             id,
-        #             patched_user_request=patched_user_request,
-        #         )
-        #         pprint(data)
-        #     except exceptions.ApiException as e:
-        #         print("Exception when calling UsersApi.partial_update(): %s\n" % e)
+            try:
+                (data, response) = api_client.users_api.partial_update(
+                    id,
+                    patched_user_request=patched_user_request,
+                )
+                pprint(data)
+            except exceptions.ApiException as e:
+                print("Exception when calling UsersApi.partial_update(): %s\n" % e)
 
             invitation_write_request = InvitationWriteRequest(
                 role=RoleEnum(row['org_role']),
