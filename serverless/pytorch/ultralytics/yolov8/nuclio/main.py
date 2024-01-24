@@ -24,6 +24,8 @@ def handler(context, event):
     results = context.user_data.model_handler(image)
     result = results[0]
 
+    context.logger.info("Result: {}".format(result))
+
     boxes = result.boxes.data[:,:4]
     confs = result.boxes.conf
     clss = result.boxes.cls

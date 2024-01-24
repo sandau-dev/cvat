@@ -7,16 +7,16 @@ metadata:
     framework: pytorch
     spec: |
       [
-        { "id": 22, "name": "Crack" },
-        { "id": 23, "name": "Longitudinal Joint Crack" },
-        { "id": 24, "name": "Pavement Edge Crack" },
-        { "id": 25, "name": "Transverse Crack" },
-        { "id": 26, "name": "Alligator Crack" },
-        { "id": 27, "name": "Rutting" },
-        { "id": 28, "name": "Shoving" },
-        { "id": 29, "name": "Flushing" },
-        { "id": 30, "name": "Ravelling" },
-        { "id": 31, "name": "Potholes" }
+        { "id": 0, "name": "crack" },
+        { "id": 1, "name": "longitudinal_joint" },
+        { "id": 2, "name": "pavement_edge" },
+        { "id": 3, "name": "transverse_crack" },
+        { "id": 4, "name": "alligator_crack" },
+        { "id": 5, "name": "rutting" },
+        { "id": 6, "name": "shoving" },
+        { "id": 7, "name": "flushing" },
+        { "id": 8, "name": "ravelling" },
+        { "id": 9, "name": "pothole" }
       ]
 
 
@@ -33,6 +33,12 @@ spec:
       preCopy:
         - kind: ENV
           value: DEBIAN_FRONTEND=noninteractive
+      # set NVIDIA container runtime settings
+        - kind: ENV
+          value: NVIDIA_VISIBLE_DEVICES=all
+        - kind: ENV
+          value: NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      # Setup the rest of the image
         - kind: RUN
           value: apt-get update && apt-get -y install curl git python3 python3-pip
         - kind: RUN
