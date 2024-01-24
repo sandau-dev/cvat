@@ -24,7 +24,10 @@ def handler(context, event):
     results = context.user_data.model_handler(image)
     result = results[0]
 
-    context.logger.info("Result: {}".format(result))
+    if result.masks:
+        masks = result.masks.xy
+    else:
+        masks = np.array([])
 
     boxes = result.boxes.data[:,:4]
     confs = result.boxes.conf
@@ -33,18 +36,20 @@ def handler(context, event):
 
     detections = []
     threshold = 0.1
-    for box, conf, cls in zip(boxes, confs, clss):
+    for mask, conf, cls in zip(masks, confs, clss): # Switch masks to boxes if you want to annotate with bounding boxes
+        if mask.any():
+            mask_xy_flattened = mask.flatten().tolist()
+        else:
+            mask_xy_flattened = []
         label = class_name[int(cls)]
         if conf >= threshold:
             # must be in this format
             detections.append({
                 'confidence': str(float(conf)),
                 'label': label,
-                'points': box.tolist(),
-                'type': 'rectangle',
+                'points': mask_xy_flattened, # boxes.tolist() if you want to annotate with bounding boxes
+                'type': 'mask', # Switch this to rectangle if you want to annotate with bounding boxes
             })
-
-    context.logger.info("Returning detections: {}".format(detections))
 
     return context.Response(body=json.dumps(detections), headers={},
         content_type='application/json', status_code=200)
