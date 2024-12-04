@@ -97,7 +97,7 @@ function LoginFormComponent(props: Props): JSX.Element {
                             </Col>
                         </Row>
                     )
-                }
+                } */}
                 {
                     renderResetPassword && forgotPasswordLink
                 }

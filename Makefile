@@ -1,9 +1,9 @@
 export CVAT_VERSION := v2.23.0
-export CVAT_DATA_MNT_PATH := /var/nfs/nfs_storage/cvat_data/
-#export CVAT_DATA_MNT_PATH := /mnt/azure_nfs/sandau_cvat_docker/cvat_cvat_data/
+# export CVAT_DATA_MNT_PATH := /var/nfs/nfs_storage/cvat_data/
+export CVAT_DATA_MNT_PATH := /mnt/azure_nfs/sandau_cvat_docker/cvat_cvat_data/
 export ACME_EMAIL := matt@sandau.dev
-export CVAT_HOST := dextop.local
-# export CVAT_HOST := asbuilt.cvat.sandau.dev
+# export CVAT_HOST := 192.168.1.192
+export CVAT_HOST := asbuilt.cvat.sandau.dev
 
 build:
 	docker compose -f docker-compose.yml -f docker-compose.dev.yml build
