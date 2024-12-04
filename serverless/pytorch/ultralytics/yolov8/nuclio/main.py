@@ -10,7 +10,7 @@ from ultralytics import YOLO
 def init_context(context):
     context.logger.info('Init context...  0%')
 
-    model = YOLO('vaw-road-defect-classifier.pt')
+    model = YOLO('vaw-road-defect-classifier-20241012.pt')
     context.user_data.model_handler = model
     context.logger.info('Init context...100%')
 
