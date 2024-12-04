@@ -67,9 +67,12 @@ make run-serverless
 make run
 ```
 
-If running an Automated Annotation tool, deploy the module:
+If deploying YOLO, ensure that the model weights are first copied to `serverless/pytorch/yolov8/nuclio`. Update [./serverless/pytorch/ultralytics/yolov8/nuclio/main.py](./serverless/pytorch/ultralytics/yolov8/nuclio/main.py#L13) with the new weights filename if necessary.
+
+Deploy the auto-annotation tooling by running
 ```
-./serverless/deploy_gpu.sh serverless/pytorch/ultralytics/yolov8
+make deploy-sam
+make deploy-yolo
 ```
 
 ![NOTE] If inference is slow (100s of ms), stop all containers, then you may need to run `sudo rmmod nvidia_uvm && sudo modprobe nvidia_uvm` to reset the NVIDIA module.

@@ -1,5 +1,5 @@
 // Copyright (C) 2019-2022 Intel Corporation
-// Copyright (C) 2022-2023 CVAT.ai Corporation
+// Copyright (C) 2022-2024 CVAT.ai Corporation
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,7 +7,9 @@ import { omit } from 'lodash';
 import config from './config';
 import ObjectState, { SerializedData } from './object-state';
 import { checkObjectType, clamp } from './common';
-import { DataError, ArgumentError, ScriptingError } from './exceptions';
+import {
+    DataError, ArgumentError, ScriptingError,
+} from './exceptions';
 import { Label } from './labels';
 import {
     colors, Source, ShapeType, ObjectType, HistoryActions, DimensionType, JobType,
@@ -30,6 +32,21 @@ function copyShape(state: TrackedShape, data: Partial<TrackedShape> = {}): Track
         outside: state.outside,
         attributes: {},
         ...data,
+    };
+}
+
+function convertTrackedShape(shape: SerializedTrack['shapes'][0]): TrackedShape {
+    return {
+        serverID: shape.id,
+        occluded: shape.occluded,
+        zOrder: shape.z_order,
+        points: shape.points,
+        outside: shape.outside,
+        rotation: shape.rotation || 0,
+        attributes: shape.attributes.reduce((attributeAccumulator, attr) => {
+            attributeAccumulator[attr.spec_id] = attr.value;
+            return attributeAccumulator;
+        }, {}),
     };
 }
 
@@ -133,17 +150,12 @@ class Annotation {
         injection.groups.max = Math.max(injection.groups.max, this.group);
     }
 
-    protected withContext(frame: number): {
-        __internal: {
-            save: (data: ObjectState) => ObjectState;
-            delete: Annotation['delete'];
-        };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected withContext(_: number): {
+        delete: Annotation['delete'];
     } {
         return {
-            __internal: {
-                save: (this as any).save.bind(this, frame),
-                delete: this.delete.bind(this),
-            },
+            delete: this.delete.bind(this),
         };
     }
 
@@ -328,7 +340,7 @@ class Annotation {
         this.serverID = undefined;
     }
 
-    public updateServerID(body: any): void {
+    public updateFromServerResponse(body: SerializedShape | SerializedTag | SerializedTrack): void {
         this.serverID = body.id;
     }
 
@@ -513,6 +525,17 @@ export class Shape extends Drawn {
         this.zOrder = data.z_order;
     }
 
+    protected withContext(frame: number): ReturnType<Drawn['withContext']> & {
+        save: (data: ObjectState) => ObjectState;
+        export: () => SerializedShape;
+    } {
+        return {
+            ...super.withContext(frame),
+            save: this.save.bind(this, frame),
+            export: this.toJSON.bind(this) as () => SerializedShape,
+        };
+    }
+
     // Method is used to export data to the server
     public toJSON(): SerializedShape | SerializedShape['elements'][0] {
         const result: SerializedShape = {
@@ -575,7 +598,7 @@ export class Shape extends Drawn {
             pinned: this.pinned,
             frame,
             source: this.source,
-            ...this.withContext(frame),
+            __internal: this.withContext(frame),
         };
 
         if (typeof this.outside !== 'undefined') {
@@ -815,22 +838,21 @@ export class Track extends Drawn {
         injection: AnnotationInjection,
     ) {
         super(data, clientID, color, injection);
-        this.shapes = data.shapes.reduce((shapeAccumulator, value) => {
-            shapeAccumulator[value.frame] = {
-                serverID: value.id,
-                occluded: value.occluded,
-                zOrder: value.z_order,
-                points: value.points,
-                outside: value.outside,
-                rotation: value.rotation || 0,
-                attributes: value.attributes.reduce((attributeAccumulator, attr) => {
-                    attributeAccumulator[attr.spec_id] = attr.value;
-                    return attributeAccumulator;
-                }, {}),
-            };
-
-            return shapeAccumulator;
+        this.shapes = data.shapes.reduce((acc, shape) => {
+            acc[shape.frame] = convertTrackedShape(shape);
+            return acc;
         }, {});
+    }
+
+    protected withContext(frame: number): ReturnType<Drawn['withContext']> & {
+        save: (data: ObjectState) => ObjectState;
+        export: () => SerializedTrack;
+    } {
+        return {
+            ...super.withContext(frame),
+            save: this.save.bind(this, frame),
+            export: this.toJSON.bind(this) as () => SerializedTrack,
+        };
     }
 
     // Method is used to export data to the server
@@ -926,7 +948,7 @@ export class Track extends Drawn {
             },
             frame,
             source: this.source,
-            ...this.withContext(frame),
+            __internal: this.withContext(frame),
         };
     }
 
@@ -996,11 +1018,14 @@ export class Track extends Drawn {
         return result;
     }
 
-    public updateServerID(body: SerializedTrack): void {
+    public updateFromServerResponse(body: SerializedTrack): void {
         this.serverID = body.id;
+        this.frame = body.frame;
+        const updatedShapes = {};
         for (const shape of body.shapes) {
-            this.shapes[shape.frame].serverID = shape.id;
+            updatedShapes[shape.frame] = convertTrackedShape(shape);
         }
+        this.shapes = updatedShapes;
     }
 
     public clearServerID(): void {
@@ -1397,6 +1422,17 @@ export class Track extends Drawn {
 }
 
 export class Tag extends Annotation {
+    protected withContext(frame: number): ReturnType<Annotation['withContext']> & {
+        save: (data: ObjectState) => ObjectState;
+        export: () => SerializedTag;
+    } {
+        return {
+            ...super.withContext(frame),
+            save: this.save.bind(this, frame),
+            export: this.toJSON.bind(this) as () => SerializedTag,
+        };
+    }
+
     // Method is used to export data to the server
     public toJSON(): SerializedTag {
         const result: SerializedTag = {
@@ -1443,7 +1479,7 @@ export class Tag extends Annotation {
             updated: this.updated,
             frame,
             source: this.source,
-            ...this.withContext(frame),
+            __internal: this.withContext(frame),
         };
     }
 
@@ -1669,7 +1705,16 @@ export class PolylineShape extends PolyShape {
             const y2 = points[i + 3];
 
             // Find the shortest distance from point to an edge
-            if ((x - x1) * (x2 - x) >= 0 && (y - y1) * (y2 - y) >= 0) {
+            // using perpendicular or by the distance to the nearest point
+
+            // Get coordinate vectors
+            const AB = [x2 - x1, y2 - y1];
+            const BM = [x - x2, y - y2];
+            const AM = [x - x1, y - y1];
+
+            // scalar products have different signs for two pairs of vectors
+            // it means that perpendicular projection lies on the edge
+            if (Math.sign(AB[0] * BM[0] + AB[1] * BM[1]) !== Math.sign(AB[0] * AM[0] + AB[1] * AM[1])) {
                 // Find the length of a perpendicular
                 // https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
                 distances.push(
@@ -1856,22 +1901,44 @@ export class SkeletonShape extends Shape {
         this.pinned = false;
         this.rotation = 0;
         this.occluded = false;
-        this.points = undefined;
+        this.points = [];
         this.readOnlyFields = ['points', 'label', 'occluded'];
 
-        /* eslint-disable-next-line @typescript-eslint/no-use-before-define */
-        this.elements = data.elements.map((element) => shapeFactory({
-            ...element,
-            group: this.group,
-            z_order: this.zOrder,
-            source: this.source,
-            rotation: 0,
-            frame: data.frame,
-        }, injection.nextClientID(), {
-            ...injection,
-            parentID: this.clientID,
-            readOnlyFields: ['group', 'zOrder', 'source', 'rotation'],
-        })) as any as Shape[];
+        const [cx, cy] = data.elements.reduce((acc, element, idx) => {
+            const result = [acc[0] + element.points[0], acc[1] + element.points[1]];
+            if (idx === data.elements.length - 1) {
+                // length can not be 0 because we are inside reduce
+                result[0] /= data.elements.length;
+                result[1] /= data.elements.length;
+            }
+            return result;
+        }, [0, 0]);
+
+        this.elements = this.label.structure.sublabels.map((sublabel: Label) => {
+            const element = data.elements.find((_element) => _element.label_id === sublabel.id);
+            const elementData = element || {
+                label_id: sublabel.id,
+                attributes: [],
+                occluded: false,
+                outside: true,
+                points: [cx, cy],
+                type: sublabel.type as unknown as ShapeType,
+            };
+
+            /* eslint-disable-next-line @typescript-eslint/no-use-before-define */
+            return shapeFactory({
+                ...elementData,
+                group: this.group,
+                z_order: this.zOrder,
+                source: this.source,
+                rotation: 0,
+                frame: data.frame,
+            }, injection.nextClientID(), {
+                ...injection,
+                parentID: this.clientID,
+                readOnlyFields: ['group', 'zOrder', 'source', 'rotation'],
+            });
+        });
     }
 
     static distance(points: number[], x: number, y: number): number {
@@ -1903,8 +1970,7 @@ export class SkeletonShape extends Shape {
             return null;
         }
 
-        // The shortest distance from point to an edge
-        return Math.min.apply(null, [x - xtl, y - ytl, xbr - x, ybr - y]);
+        return Math.min.apply(null, distances);
     }
 
     // Method is used to export data to the server
@@ -1984,15 +2050,15 @@ export class SkeletonShape extends Shape {
             hidden: elements.every((el) => el.hidden),
             frame,
             source: this.source,
-            ...this.withContext(frame),
+            __internal: this.withContext(frame),
         };
     }
 
-    public updateServerID(body: SerializedShape): void {
-        Shape.prototype.updateServerID.call(this, body);
+    public updateFromServerResponse(body: SerializedShape): void {
+        Shape.prototype.updateFromServerResponse.call(this, body);
         for (const element of body.elements) {
-            const thisElement = this.elements.find((_element: Shape) => _element.label.id === element.label_id);
-            thisElement.updateServerID(element);
+            const context = this.elements.find((_element: Shape) => _element.label.id === element.label_id);
+            context.updateFromServerResponse(element);
         }
     }
 
@@ -2051,7 +2117,7 @@ export class SkeletonShape extends Shape {
             return new ObjectState(this.get(frame));
         }
 
-        const updateElements = (affectedElements, action, property: 'points' | 'occluded' | 'hidden' | 'lock') => {
+        const updateElements = (affectedElements, action, property: 'points' | 'occluded' | 'hidden' | 'lock'): void => {
             const undoSkeletonProperties = this.elements.map((element) => element[property]);
             const undoSource = this.source;
             const redoSource = this.readOnlyFields.includes('source') ? this.source : computeNewSource(this.source);
@@ -2149,6 +2215,11 @@ export class MaskShape extends Shape {
 
     constructor(data: SerializedShape, clientID: number, color: string, injection: AnnotationInjection) {
         super(data, clientID, color, injection);
+        const [left, top, right, bottom] = this.points.slice(-4);
+        const { width, height } = this.frameMeta[this.frame];
+        if (left >= width || top >= height || right >= width || bottom >= height) {
+            this.points = cropMask(this.points, width, height);
+        }
         [this.left, this.top, this.right, this.bottom] = this.points.splice(-4, 4);
         this.getMasksOnFrame = injection.getMasksOnFrame;
         this.pinned = true;
@@ -2156,7 +2227,7 @@ export class MaskShape extends Shape {
     }
 
     protected validateStateBeforeSave(data: ObjectState, updated: ObjectState['updateFlags'], frame?: number): number[] {
-        Annotation.prototype.validateStateBeforeSave.call(this, data, updated);
+        super.validateStateBeforeSave(data, updated, frame);
         if (updated.points) {
             const { width, height } = this.frameMeta[frame];
             return cropMask(data.points, width, height);
@@ -2165,7 +2236,13 @@ export class MaskShape extends Shape {
         return [];
     }
 
-    public removeUnderlyingPixels(frame: number): void {
+    public removeUnderlyingPixels(frame: number):
+    {
+        clientIDs: number[],
+        undo: Function,
+        redo: Function,
+        emptyMaskOccurred: boolean,
+    } {
         if (frame !== this.frame) {
             throw new ArgumentError(
                 `Wrong "frame" attribute: is not equal to the shape frame (${frame} vs ${this.frame})`,
@@ -2178,7 +2255,7 @@ export class MaskShape extends Shape {
         const height = this.bottom - this.top + 1;
         const updatedObjects: Record<number, MaskShape> = {};
 
-        const masks = {};
+        let masks = {};
         const currentMask = rle2Mask(this.points, width, height);
         for (let i = 0; i < currentMask.length; i++) {
             if (currentMask[i]) {
@@ -2206,10 +2283,43 @@ export class MaskShape extends Shape {
             }
         }
 
+        const wrapper = {
+            stashedPoints: Object.values(updatedObjects).map((object) => object.points),
+            stashedRemoved: Object.values(updatedObjects).map((object) => object.removed),
+        };
+
+        let emptyMaskOccurred = false;
         for (const object of Object.values(updatedObjects)) {
-            object.points = mask2Rle(masks[object.clientID]);
-            object.updated = Date.now();
+            const points = mask2Rle(masks[object.clientID]);
+            if (points.length < 2) {
+                object.removed = true;
+                emptyMaskOccurred = true;
+            } else {
+                object.points = points;
+                object.updated = Date.now();
+            }
         }
+        masks = null;
+
+        const undo = (): void => {
+            const updatedStashedPoints = Object.values(updatedObjects).map((object) => object.points);
+            const updatedStashedRemoved = Object.values(updatedObjects).map((object) => object.removed);
+            for (const [index, object] of Object.values(updatedObjects).entries()) {
+                object.points = wrapper.stashedPoints[index];
+                object.removed = wrapper.stashedRemoved[index];
+                object.updated = Date.now();
+            }
+            wrapper.stashedPoints = updatedStashedPoints;
+            wrapper.stashedRemoved = updatedStashedRemoved;
+        };
+
+        const redo = undo;
+        return {
+            clientIDs: Object.keys(updatedObjects).map((clientID) => +clientID),
+            emptyMaskOccurred,
+            undo,
+            redo,
+        };
     }
 
     protected savePoints(maskPoints: number[], frame: number): void {
@@ -2246,15 +2356,38 @@ export class MaskShape extends Shape {
             this.updated = Date.now();
         };
 
-        this.history.do(
-            HistoryActions.CHANGED_POINTS,
-            undo, redo, [this.clientID], frame,
-        );
-
         redo();
-
-        if (config.removeUnderlyingMaskPixels) {
-            this.removeUnderlyingPixels(frame);
+        if (config.removeUnderlyingMaskPixels.enabled) {
+            const {
+                clientIDs,
+                emptyMaskOccurred,
+                undo: undoWithUnderlyingPixels,
+                redo: redoWithUnderlyingPixels,
+            } = this.removeUnderlyingPixels(frame);
+            if (emptyMaskOccurred) {
+                config.removeUnderlyingMaskPixels?.onEmptyMaskOccurrence();
+            }
+            this.history.do(
+                HistoryActions.CHANGED_POINTS,
+                () => {
+                    undoWithUnderlyingPixels();
+                    undo();
+                },
+                () => {
+                    redoWithUnderlyingPixels();
+                    redo();
+                },
+                [this.clientID, ...clientIDs],
+                frame,
+            );
+        } else {
+            this.history.do(
+                HistoryActions.CHANGED_POINTS,
+                undo,
+                redo,
+                [this.clientID],
+                frame,
+            );
         }
     }
 
@@ -2458,7 +2591,7 @@ class PolyTrack extends Track {
             return updatedMatching;
         }
 
-        function reduceInterpolation(interpolatedPoints, matching, leftPoints, rightPoints) {
+        function reduceInterpolation(interpolatedPoints, matching, leftPoints, rightPoints): void {
             function averagePoint(points: Point2D[]): Point2D {
                 let sumX = 0;
                 let sumY = 0;
@@ -2477,7 +2610,7 @@ class PolyTrack extends Track {
                 return Math.sqrt((point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2);
             }
 
-            function minimizeSegment(baseLength: number, N: number, startInterpolated, stopInterpolated) {
+            function minimizeSegment(baseLength: number, N: number, startInterpolated, stopInterpolated): void {
                 const threshold = baseLength / (2 * N);
                 const minimized = [interpolatedPoints[startInterpolated]];
                 let latestPushed = startInterpolated;
@@ -2514,7 +2647,7 @@ class PolyTrack extends Track {
                 interpolatedIndexes[i] = matching[i].map(() => accumulated++);
             }
 
-            function leftSegment(start, stop) {
+            function leftSegment(start, stop): void {
                 const startInterpolated = interpolatedIndexes[start][0];
                 const stopInterpolated = interpolatedIndexes[stop][0];
 
@@ -2529,7 +2662,7 @@ class PolyTrack extends Track {
                 reduced.push(...minimizeSegment(baseLength, N, startInterpolated, stopInterpolated));
             }
 
-            function rightSegment(leftPoint) {
+            function rightSegment(leftPoint): void {
                 const start = matching[leftPoint][0];
                 const [stop] = matching[leftPoint].slice(-1);
                 const startInterpolated = interpolatedIndexes[leftPoint][0];
@@ -2766,27 +2899,61 @@ export class SkeletonTrack extends Track {
         this.shapeType = ShapeType.SKELETON;
         this.readOnlyFields = ['points', 'label', 'occluded', 'outside'];
         this.pinned = false;
-        this.elements = data.elements.map((element: SerializedTrack['elements'][0]) => (
+
+        const [cx, cy] = data.elements.reduce((acc, element, idx) => {
+            const shape = element.shapes[0];
+            if (!shape || shape.frame !== this.frame) {
+                return acc;
+            }
+
+            const result = [acc[0] + shape.points[0], acc[1] + shape.points[1], acc[2] + 1];
+            if (idx === data.elements.length - 1) {
+                // avoid division by 0, additionally
+                return [result[0] / (result[2] || 1), result[1] / (result[2] || 1)];
+            }
+
+            return result;
+        }, [0, 0, 0]);
+
+        this.elements = this.label.structure.sublabels.map((sublabel) => {
+            const element = data.elements.find((_element) => _element.label_id === sublabel.id);
+            const elementData = element || {
+                label_id: sublabel.id,
+                frame: this.frame,
+                attributes: [],
+                shapes: [{
+                    attributes: [],
+                    points: [cx, cy],
+                    frame: this.frame,
+                    occluded: false,
+                    outside: true,
+                    rotation: 0,
+                    type: sublabel.type as unknown as ShapeType,
+                }],
+            };
+
             /* eslint-disable-next-line @typescript-eslint/no-use-before-define */
-            trackFactory({
-                ...element,
+            return trackFactory({
+                ...elementData,
                 group: this.group,
                 source: this.source,
+                shapes: elementData.shapes.map((shape) => ({
+                    ...shape,
+                    z_order: this.shapes[shape.frame]?.zOrder || 0,
+                })),
             }, injection.nextClientID(), {
                 ...injection,
                 parentID: this.clientID,
                 readOnlyFields: ['group', 'zOrder', 'source', 'rotation'],
-            })
-
-            // todo z_order: this.zOrder,
-        )).sort((a: Annotation, b: Annotation) => a.label.id - b.label.id) as any as Track[];
+            });
+        }).filter(Boolean).sort((a: Annotation, b: Annotation) => a.label.id - b.label.id);
     }
 
-    public updateServerID(body: SerializedTrack): void {
-        Track.prototype.updateServerID.call(this, body);
+    public updateFromServerResponse(body: SerializedTrack): void {
+        Track.prototype.updateFromServerResponse.call(this, body);
         for (const element of body.elements) {
-            const thisElement = this.elements.find((_element: Track) => _element.label.id === element.label_id);
-            thisElement.updateServerID(element);
+            const context = this.elements.find((_element: Track) => _element.label.id === element.label_id);
+            context.updateFromServerResponse(element);
         }
     }
 
@@ -2864,6 +3031,12 @@ export class SkeletonTrack extends Track {
     // Method is used to export data to the server
     public toJSON(): SerializedTrack {
         const result: SerializedTrack = Track.prototype.toJSON.call(this);
+
+        result.shapes = result.shapes.map((shape) => ({
+            ...shape,
+            points: [],
+        }));
+
         result.elements = this.elements.map((el) => ({
             ...el.toJSON(),
             source: this.source,
@@ -2885,7 +3058,7 @@ export class SkeletonTrack extends Track {
         return result;
     }
 
-    public get(frame: number): Omit<Required<SerializedData>, 'parentID'> {
+    public get(frame: number): Required<SerializedData> {
         const { prev, next } = this.boundedKeyframes(frame);
         const position = this.getPosition(frame, prev, next);
         const elements = this.elements.map((element) => ({
@@ -2898,6 +3071,7 @@ export class SkeletonTrack extends Track {
 
         return {
             ...position,
+            parentID: null,
             keyframe: position.keyframe || elements.some((el) => el.keyframe),
             attributes: this.getAttributes(frame),
             descriptions: [...this.descriptions],
@@ -2918,7 +3092,7 @@ export class SkeletonTrack extends Track {
             occluded: elements.every((el) => el.occluded),
             lock: elements.every((el) => el.lock),
             hidden: elements.every((el) => el.hidden),
-            ...this.withContext(frame),
+            __internal: this.withContext(frame),
         };
     }
 
@@ -3073,7 +3247,7 @@ export class SkeletonTrack extends Track {
 
     protected getPosition(
         targetFrame: number, leftKeyframe: number | null, rightKeyframe: number | null,
-    ): Omit<InterpolatedPosition, 'points'> & { keyframe: boolean } {
+    ): InterpolatedPosition & { keyframe: boolean } {
         const leftFrame = targetFrame in this.shapes ? targetFrame : leftKeyframe;
         const rightPosition = Number.isInteger(rightKeyframe) ? this.shapes[rightKeyframe] : null;
         const leftPosition = Number.isInteger(leftFrame) ? this.shapes[leftFrame] : null;
@@ -3085,6 +3259,7 @@ export class SkeletonTrack extends Track {
                 outside: leftPosition.outside,
                 zOrder: leftPosition.zOrder,
                 keyframe: targetFrame in this.shapes,
+                points: [],
             };
         }
 
@@ -3096,6 +3271,7 @@ export class SkeletonTrack extends Track {
                 zOrder: singlePosition.zOrder,
                 keyframe: targetFrame in this.shapes,
                 outside: singlePosition === rightPosition ? true : singlePosition.outside,
+                points: [],
             };
         }
 

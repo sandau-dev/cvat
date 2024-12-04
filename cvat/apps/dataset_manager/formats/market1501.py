@@ -1,5 +1,5 @@
 # Copyright (C) 2021-2022 Intel Corporation
-# Copyright (C) 2022-2023 CVAT.ai Corporation
+# Copyright (C) 2022-2024 CVAT.ai Corporation
 #
 # SPDX-License-Identifier: MIT
 
@@ -10,7 +10,7 @@ from datumaro.components.annotation import (AnnotationType, Label,
 from datumaro.components.dataset import Dataset
 from datumaro.components.extractor import ItemTransform
 
-from cvat.apps.dataset_manager.bindings import (GetCVATDataExtractor,
+from cvat.apps.dataset_manager.bindings import (GetCVATDataExtractor, detect_dataset,
     import_dm_annotations)
 from cvat.apps.dataset_manager.util import make_zip_archive
 
@@ -62,17 +62,19 @@ class LabelAttrToAttr(ItemTransform):
 
 @exporter(name='Market-1501', ext='ZIP', version='1.0')
 def _export(dst_file, temp_dir, instance_data, save_images=False):
-    dataset = Dataset.from_extractors(GetCVATDataExtractor(
-        instance_data, include_images=save_images), env=dm_env)
+    with GetCVATDataExtractor(instance_data, include_images=save_images) as extractor:
+        dataset = Dataset.from_extractors(extractor, env=dm_env)
 
-    dataset.transform(LabelAttrToAttr, label='market-1501')
-    dataset.export(temp_dir, 'market1501', save_images=save_images)
+        dataset.transform(LabelAttrToAttr, label='market-1501')
+        dataset.export(temp_dir, 'market1501', save_images=save_images)
+
     make_zip_archive(temp_dir, dst_file)
 
 @importer(name='Market-1501', ext='ZIP', version='1.0')
 def _import(src_file, temp_dir, instance_data, load_data_callback=None, **kwargs):
     zipfile.ZipFile(src_file).extractall(temp_dir)
 
+    detect_dataset(temp_dir, format_name='market1501', importer=dm_env.importers.get('market1501'))
     dataset = Dataset.import_from(temp_dir, 'market1501', env=dm_env)
     dataset.transform(AttrToLabelAttr, label='market-1501')
     if load_data_callback is not None:

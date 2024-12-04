@@ -1,12 +1,12 @@
 # Copyright (C) 2019-2022 Intel Corporation
-# Copyright (C) 2022-2023 CVAT.ai Corporation
+# Copyright (C) 2022-2024 CVAT.ai Corporation
 #
 # SPDX-License-Identifier: MIT
 
 import datumaro as dm
 from pyunpack import Archive
 
-from cvat.apps.dataset_manager.bindings import GetCVATDataExtractor
+from cvat.apps.dataset_manager.bindings import GetCVATDataExtractor, detect_dataset
 from cvat.apps.dataset_manager.util import make_zip_archive
 
 from .registry import dm_env, exporter, importer
@@ -94,10 +94,10 @@ def _import_to_task(dataset, instance_data):
 
 @exporter(name='MOT', ext='ZIP', version='1.1')
 def _export(dst_file, temp_dir, instance_data, save_images=False):
-    dataset = dm.Dataset.from_extractors(GetCVATDataExtractor(
-        instance_data, include_images=save_images), env=dm_env)
+    with GetCVATDataExtractor(instance_data, include_images=save_images) as extractor:
+        dataset = dm.Dataset.from_extractors(extractor, env=dm_env)
 
-    dataset.export(temp_dir, 'mot_seq_gt', save_images=save_images)
+        dataset.export(temp_dir, 'mot_seq_gt', save_images=save_images)
 
     make_zip_archive(temp_dir, dst_file)
 
@@ -105,6 +105,7 @@ def _export(dst_file, temp_dir, instance_data, save_images=False):
 def _import(src_file, temp_dir, instance_data, load_data_callback=None, **kwargs):
     Archive(src_file.name).extractall(temp_dir)
 
+    detect_dataset(temp_dir, format_name='mot_seq', importer=dm_env.importers.get('mot_seq'))
     dataset = dm.Dataset.import_from(temp_dir, 'mot_seq', env=dm_env)
     if load_data_callback is not None:
         load_data_callback(dataset, instance_data)

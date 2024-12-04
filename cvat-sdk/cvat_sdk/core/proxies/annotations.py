@@ -3,8 +3,9 @@
 # SPDX-License-Identifier: MIT
 
 from abc import ABC
+from collections.abc import Sequence
 from enum import Enum
-from typing import Optional, Sequence
+from typing import Optional
 
 from cvat_sdk import models
 from cvat_sdk.core.proxies.model_proxy import _EntityT
@@ -20,8 +21,7 @@ class AnnotationCrudMixin(ABC):
     # TODO: refactor
 
     @property
-    def _put_annotations_data_param(self) -> str:
-        ...
+    def _put_annotations_data_param(self) -> str: ...
 
     def get_annotations(self: _EntityT) -> models.ILabeledData:
         (annotations, _) = self.api.retrieve_annotations(getattr(self, self._model_id_field))

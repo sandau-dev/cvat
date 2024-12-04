@@ -1,19 +1,33 @@
 from pathlib import Path
+import functools
+import hashlib
+import importlib
+import io
 import tarfile
 
 from django.conf import settings
+from django.contrib.sessions.backends.base import SessionBase
 
-def create_opa_bundle():
-    bundle_path = Path(settings.IAM_OPA_BUNDLE_PATH)
-    if bundle_path.is_file():
-        bundle_path.unlink()
+_OPA_RULES_PATHS = {
+    Path(__file__).parent / 'rules',
+}
 
-    rules_paths = [Path(settings.BASE_DIR) / rel_path for rel_path in settings.IAM_OPA_RULES_PATH.strip(':').split(':')]
+@functools.lru_cache(maxsize=None)
+def get_opa_bundle() -> tuple[bytes, str]:
+    bundle_file = io.BytesIO()
 
-    with tarfile.open(bundle_path, 'w:gz') as tar:
-        for p in rules_paths:
+    with tarfile.open(fileobj=bundle_file, mode='w:gz') as tar:
+        for p in _OPA_RULES_PATHS:
             for f in p.glob('*[!.gen].rego'):
                 tar.add(name=f, arcname=f.relative_to(p.parent))
+
+    bundle = bundle_file.getvalue()
+    etag = hashlib.blake2b(bundle).hexdigest()
+    return bundle, etag
+
+def add_opa_rules_path(path: Path) -> None:
+    _OPA_RULES_PATHS.add(path)
+    get_opa_bundle.cache_clear()
 
 def get_dummy_user(email):
     from allauth.account.models import EmailAddress
@@ -32,3 +46,7 @@ def get_dummy_user(email):
         if email.verified:
             return None
     return user
+
+def clean_up_sessions() -> None:
+    SessionStore: type[SessionBase] = importlib.import_module(settings.SESSION_ENGINE).SessionStore
+    SessionStore.clear_expired()

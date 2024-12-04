@@ -39,12 +39,15 @@ context('Export project dataset.', { browser: '!firefox' }, () => {
 
     function checkCounTasksInXML(projectParams, expectedCount) {
         cy.exportProject(projectParams);
-        cy.waitForDownload();
+        cy.downloadExport().then((file) => {
+            cy.verifyDownload(file);
+        });
         cy.unpackZipArchive(`cypress/fixtures/${projectParams.archiveCustomName}.zip`);
         cy.readFile('cypress/fixtures/annotations.xml').should('exist').then((xml) => {
             const tasks = Cypress.$(Cypress.$.parseXML(xml)).find('task').find('name');
             expect(tasks.length).to.be.eq(expectedCount);
         });
+        cy.goBack();
     }
 
     before(() => {
@@ -95,11 +98,10 @@ context('Export project dataset.', { browser: '!firefox' }, () => {
                 dumpType: 'CVAT for images',
             };
             cy.exportProject(exportAnnotation);
-            cy.getDownloadFileName().then((file) => {
-                datasetArchiveName = file;
-                cy.verifyDownload(datasetArchiveName);
+            cy.downloadExport().then((file) => {
+                cy.verifyDownload(file);
             });
-            cy.verifyNotification();
+            cy.goBack();
         });
 
         it('Export project dataset. Dataset.', () => {
@@ -111,10 +113,14 @@ context('Export project dataset.', { browser: '!firefox' }, () => {
                 dumpType: 'CVAT for images',
             };
             cy.exportProject(exportDataset);
-            cy.waitForDownload();
+            cy.downloadExport().then((file) => {
+                cy.verifyDownload(file);
+                datasetArchiveName = file;
+            });
+            cy.goBack();
         });
 
-        it('Export project dataset. Annotation. Rename a archive.', () => {
+        it('Export project dataset. Annotation. Rename an archive.', () => {
             cy.goToProjectsList();
             const exportAnnotationsRenameArchive = {
                 projectName,

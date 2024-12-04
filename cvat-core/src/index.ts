@@ -1,31 +1,47 @@
-// Copyright (C) 2023 CVAT.ai Corporation
+// Copyright (C) 2023-2024 CVAT.ai Corporation
 //
 // SPDX-License-Identifier: MIT
 
+import {
+    AnalyticsReportFilter, QualityConflictsFilter, QualityReportsFilter, QualitySettingsFilter,
+} from './server-response-types';
 import PluginRegistry from './plugins';
 import serverProxy from './server-proxy';
 import lambdaManager from './lambda-manager';
 import { AnnotationFormats } from './annotation-formats';
-import loggerStorage from './logger-storage';
+import logger from './logger';
 import * as enums from './enums';
 import config from './config';
-import { mask2Rle, rle2Mask } from './object-utils';
+import { mask2Rle, rle2Mask, propagateShapes } from './object-utils';
 import User from './user';
 import Project from './project';
 import { Job, Task } from './session';
-import { EventLogger } from './log';
+import { Event } from './event';
 import { Attribute, Label } from './labels';
 import Statistics from './statistics';
 import ObjectState from './object-state';
 import MLModel from './ml-model';
 import Issue from './issue';
 import Comment from './comment';
-import { FrameData } from './frames';
+import { FrameData, FramesMetaData } from './frames';
 import CloudStorage from './cloud-storage';
 import Organization, { Invitation } from './organization';
 import Webhook from './webhook';
+import QualityReport from './quality-report';
+import QualityConflict from './quality-conflict';
+import QualitySettings from './quality-settings';
+import AnalyticsReport from './analytics-report';
 import AnnotationGuide from './guide';
-import BaseSingleFrameAction, { listActions, registerAction, runActions } from './annotations-actions';
+import { JobValidationLayout, TaskValidationLayout } from './validation-layout';
+import { Request } from './request';
+import {
+    runAction,
+    callAction,
+    listActions,
+    registerAction,
+} from './annotations-actions/annotations-actions';
+import { BaseCollectionAction } from './annotations-actions/base-collection-action';
+import { BaseShapesAction } from './annotations-actions/base-shapes-action';
 import {
     ArgumentError, DataError, Exception, ScriptingError, ServerError,
 } from './exceptions';
@@ -59,12 +75,12 @@ export default interface CVATCore {
         changePassword: any;
         requestPasswordReset: any;
         resetPassword: any;
-        authorized: any;
+        authenticated: any;
         healthCheck: any;
         request: any;
         setAuthData: any;
-        removeAuthData: any;
         installedApps: any;
+        apiSchema: typeof serverProxy.server.apiSchema;
     };
     assets: {
         create: any;
@@ -97,11 +113,11 @@ export default interface CVATCore {
     projects: {
         get: (
             filter: {
-                id: number;
-                page: number;
-                search: string;
-                sort: string;
-                filter: string;
+                id?: number;
+                page?: number;
+                search?: string;
+                sort?: string;
+                filter?: string;
             }
         ) => Promise<PaginatedResource<Project>>;
         searchNames: any;
@@ -125,30 +141,52 @@ export default interface CVATCore {
     };
     analytics: {
         quality: {
-            reports: any;
-            conflicts: any;
-            settings: any;
+            reports: (filter: QualityReportsFilter) => Promise<PaginatedResource<QualityReport>>;
+            conflicts: (filter: QualityConflictsFilter) => Promise<QualityConflict[]>;
+            settings: {
+                get: (filter: QualitySettingsFilter) => Promise<QualitySettings>;
+            };
         };
         performance: {
-            reports: any;
+            reports: (filter: AnalyticsReportFilter) => Promise<AnalyticsReport>;
+            calculate: (
+                body: { jobID?: number; taskID?: number; projectID?: number; },
+                onUpdate: (status: enums.RQStatus, progress: number, message: string) => void,
+            ) => Promise<void>;
         };
     };
     frames: {
         getMeta: any;
     };
+    requests: {
+        list: () => Promise<PaginatedResource<Request>>;
+        listen: (
+            rqID: string,
+            options: {
+                callback: (request: Request) => void,
+                initialRequest?: Request,
+            }
+        ) => Promise<Request>;
+        cancel: (rqID: string) => Promise<void>;
+    };
     actions: {
         list: typeof listActions;
         register: typeof registerAction;
-        run: typeof runActions;
+        run: typeof runAction;
+        call: typeof callAction;
     };
-    logger: typeof loggerStorage;
+    logger: typeof logger;
     config: {
         backendAPI: typeof config.backendAPI;
         origin: typeof config.origin;
         uploadChunkSize: typeof config.uploadChunkSize;
-        removeUnderlyingMaskPixels: typeof config.removeUnderlyingMaskPixels;
-        onOrganizationChange: typeof config.onOrganizationChange;
+        removeUnderlyingMaskPixels: {
+            enabled: boolean;
+            onEmptyMaskOccurrence: () => void | null;
+        };
+        onOrganizationChange: (newOrgId: number | null) => void | null;
         globalObjectsCounter: typeof config.globalObjectsCounter;
+        requestsStatusDelay: typeof config.requestsStatusDelay;
     },
     client: {
         version: string;
@@ -166,7 +204,7 @@ export default interface CVATCore {
         Project: typeof Project;
         Task: typeof Task;
         Job: typeof Job;
-        EventLogger: typeof EventLogger;
+        Event: typeof Event;
         Attribute: typeof Attribute;
         Label: typeof Label;
         Statistics: typeof Statistics;
@@ -179,10 +217,20 @@ export default interface CVATCore {
         Organization: typeof Organization;
         Webhook: typeof Webhook;
         AnnotationGuide: typeof AnnotationGuide;
-        BaseSingleFrameAction: typeof BaseSingleFrameAction;
+        BaseShapesAction: typeof BaseShapesAction;
+        BaseCollectionAction: typeof BaseCollectionAction;
+        QualityReport: typeof QualityReport;
+        QualityConflict: typeof QualityConflict;
+        QualitySettings: typeof QualitySettings;
+        AnalyticsReport: typeof AnalyticsReport;
+        Request: typeof Request;
+        FramesMetaData: typeof FramesMetaData;
+        JobValidationLayout: typeof JobValidationLayout;
+        TaskValidationLayout: typeof TaskValidationLayout;
     };
     utils: {
         mask2Rle: typeof mask2Rle;
         rle2Mask: typeof rle2Mask;
+        propagateShapes: typeof propagateShapes;
     };
 }

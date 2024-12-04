@@ -103,12 +103,7 @@ context('Lock/hide features.', () => {
     });
 
     beforeEach(() => {
-        cy.document().then((doc) => {
-            const tooltips = Array.from(doc.querySelectorAll('.ant-tooltip'));
-            if (tooltips.length > 0) {
-                cy.get('.ant-tooltip').invoke('hide');
-            }
-        });
+        cy.hideTooltips();
     });
 
     describe(`Testing case "${caseId}"`, () => {
@@ -223,7 +218,7 @@ context('Lock/hide features.', () => {
                 cy.contains('Labels').click();
             });
         });
-        it('Repeat hide/lock for one of the labels. Objects with other labels weren’t affected.', () => {
+        it("Repeat hide/lock for one of the labels. Objects with other labels weren't affected.", () => {
             const objectsSameLabel = ['cvat_canvas_shape_1', 'cvat_canvas_shape_2', 'cvat_canvas_shape_3'];
             cy.get('.cvat-objects-sidebar-labels-list').within(() => {
                 // Hide and lock all object with "Main task" label (#cvat_canvas_shape_1-3).

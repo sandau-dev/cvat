@@ -3,6 +3,7 @@
 #
 # SPDX-License-Identifier: MIT
 
+from attr.converters import to_bool
 from django.contrib.auth import get_user_model
 from allauth.account.models import EmailAddress
 from django.core.exceptions import ObjectDoesNotExist
@@ -11,7 +12,6 @@ from django.contrib.auth.models import User
 from django.db import transaction
 
 from rest_framework import serializers
-from distutils.util import strtobool
 from cvat.apps.engine.serializers import BasicUserSerializer
 from cvat.apps.iam.utils import get_dummy_user
 from .models import Invitation, Membership, Organization
@@ -103,7 +103,8 @@ class InvitationWriteSerializer(serializers.ModelSerializer):
             user_email = membership_data['user']['email']
             user = User.objects.create_user(username=user_email, email=user_email)
             user.set_unusable_password()
-            email = EmailAddress.objects.create(user=user, email=user_email, primary=True, verified=False)
+            # User.objects.create_user(...) normalizes passed email and user.email can be different from original user_email
+            email = EmailAddress.objects.create(user=user, email=user.email, primary=True, verified=False)
             user.save()
             email.save()
             del membership_data['user']
@@ -124,7 +125,7 @@ class InvitationWriteSerializer(serializers.ModelSerializer):
     def save(self, request, **kwargs):
         invitation = super().save(**kwargs)
         dummy_user = get_dummy_user(invitation.membership.user.email)
-        if not strtobool(settings.ORG_INVITATION_CONFIRM) and not dummy_user:
+        if not to_bool(settings.ORG_INVITATION_CONFIRM) and not dummy_user:
             invitation.accept()
         else:
             invitation.send(request)

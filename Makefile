@@ -1,5 +1,5 @@
-export CVAT_VERSION := v2.10.0
-# export CVAT_DATA_MNT_PATH := /media/ph1ash/Storage/cvat_cvat_data/
+export CVAT_VERSION := v2.23.0
+# export CVAT_DATA_MNT_PATH := /var/nfs/nfs_storage/cvat_data/
 export CVAT_DATA_MNT_PATH := /mnt/azure_nfs/sandau_cvat_docker/cvat_cvat_data/
 export ACME_EMAIL := matt@sandau.dev
 # export CVAT_HOST := 192.168.1.192
@@ -19,6 +19,12 @@ run-serverless:
 
 stop:
 	docker compose -f docker-compose.yml -f components/serverless/docker-compose.serverless.yml down
+
+deploy-sam:
+	cd serverless && ./deploy_gpu.sh pytorch/facebookresearch/segment_anything_2/nuclio/
+
+deploy-yolo:
+	cd serverless && ./deploy_gpu.sh pytorch/ultralytics/yolov8/nuclio/
 
 logs:
 	docker compose logs -f

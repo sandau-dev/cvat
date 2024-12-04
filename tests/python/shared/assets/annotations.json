@@ -4225,6 +4225,1026 @@
       ],
       "tracks": [],
       "version": 0
+    },
+    "29": {
+      "shapes": [
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 0,
+          "group": 0,
+          "id": 151,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            44.898003339767456,
+            63.52153968811035,
+            426.46817803382874,
+            271.5955777168274
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 1,
+          "group": 0,
+          "id": 152,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            43.79357561469078,
+            28.97564932703972,
+            136.88880816102028,
+            164.59188774228096
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 2,
+          "group": 0,
+          "id": 153,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            108.50460643768383,
+            165.35334844589306,
+            795.2833482742317,
+            679.8631751060493
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 3,
+          "group": 0,
+          "id": 154,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            40.11789474487341,
+            128.13260302543677,
+            104.97083768844641,
+            182.6914280414585
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 4,
+          "group": 0,
+          "id": 155,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            19.106867015361786,
+            71.99510070085489,
+            200.8463572859764,
+            196.5581221222874
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        }
+      ],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "30": {
+      "shapes": [
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 5,
+          "group": 0,
+          "id": 156,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            55.147965204716456,
+            27.993821200729144,
+            354.91261003613545,
+            129.34078386128022
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 6,
+          "group": 0,
+          "id": 157,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            55.67655109167208,
+            27.202181529999507,
+            314.5855129838001,
+            333.9054008126259
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 7,
+          "group": 0,
+          "id": 158,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            30.75535711050179,
+            51.1681019723419,
+            245.49246947169377,
+            374.42159963250197
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 8,
+          "group": 0,
+          "id": 159,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            78.72917294502258,
+            28.6186763048172,
+            456.07723474502563,
+            214.25403320789337
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 9,
+          "group": 0,
+          "id": 160,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            40.30229317843805,
+            20.90870136916601,
+            277.9420801371325,
+            141.0943407505747
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        }
+      ],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "31": {
+      "shapes": [
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 10,
+          "group": 0,
+          "id": 161,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            37.5426108896736,
+            44.316280591488976,
+            109.0776273667816,
+            115.21824382543673
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        }
+      ],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "32": {
+      "shapes": [
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 4,
+          "group": 0,
+          "id": 162,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            24.722413063049316,
+            37.791320228576296,
+            270.78543078899384,
+            610.5770170927044
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 5,
+          "group": 0,
+          "id": 163,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            87.86122530400826,
+            22.648517262936366,
+            277.2987968593843,
+            128.69934738874508
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 6,
+          "group": 0,
+          "id": 164,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            8.219268488885064,
+            76.40050053596497,
+            46.97136907577624,
+            76.9621251821518
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 7,
+          "group": 0,
+          "id": 165,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            40.372303777934576,
+            55.821463263035184,
+            232.15283377170636,
+            366.6659974813465
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 8,
+          "group": 0,
+          "id": 166,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            114.91701781749725,
+            49.88939428329468,
+            426.5192240476608,
+            201.82309412956238
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 9,
+          "group": 0,
+          "id": 167,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            69.46096818744991,
+            42.89721039235519,
+            143.9282634973515,
+            85.61091347932779
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 10,
+          "group": 0,
+          "id": 168,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            35.64345116019285,
+            190.86810638308634,
+            41.340930348635084,
+            213.02496989369502
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        }
+      ],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "33": {
+      "shapes": [],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "34": {
+      "shapes": [],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "35": {
+      "shapes": [],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "36": {
+      "shapes": [],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "37": {
+      "shapes": [],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "38": {
+      "shapes": [
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j1 frame1 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 0,
+          "group": 0,
+          "id": 169,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            19.650000000003274,
+            13.100000000002183,
+            31.850000000004002,
+            18.900000000001455
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j1 frame2 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 1,
+          "group": 0,
+          "id": 170,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            18.650000000003274,
+            10.500000000001819,
+            28.650000000003274,
+            15.200000000002547
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j1 frame2 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 1,
+          "group": 0,
+          "id": 171,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            18.850000000002183,
+            19.50000000000182,
+            27.05000000000291,
+            24.900000000001455
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j1 frame6 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 5,
+          "group": 0,
+          "id": 172,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            26.25000000000182,
+            16.50000000000182,
+            40.95000000000255,
+            23.900000000001455
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        }
+      ],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "39": {
+      "shapes": [
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j2 frame1 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 8,
+          "group": 0,
+          "id": 173,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            14.650000000003274,
+            10.000000000001819,
+            25.750000000003638,
+            17.30000000000109
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j2 frame1 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 8,
+          "group": 0,
+          "id": 174,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            30.350000000002183,
+            18.700000000002547,
+            43.05000000000291,
+            26.400000000003274
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j2 frame2 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 9,
+          "group": 0,
+          "id": 175,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            9.200000000002547,
+            34.35000000000218,
+            21.900000000003274,
+            38.55000000000291
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j2 frame2 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 9,
+          "group": 0,
+          "id": 176,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            40.900390625,
+            29.0498046875,
+            48.80000000000291,
+            30.350000000002183,
+            45.10000000000218,
+            39.25000000000182,
+            45.70000000000255,
+            24.450000000002547
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "points",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j2 frame5 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 12,
+          "group": 0,
+          "id": 177,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            16.791015625,
+            32.8505859375,
+            27.858705213058784,
+            37.01258996859542,
+            21.633141273523506,
+            39.77950727505595
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "points",
+          "z_order": 0
+        }
+      ],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "40": {
+      "shapes": [
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame1 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 16,
+          "group": 0,
+          "id": 178,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            29.0498046875,
+            14.2998046875,
+            30.350000000002183,
+            22.00000000000182,
+            20.650000000003274,
+            21.600000000002183,
+            20.650000000003274,
+            11.30000000000291
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "polygon",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame2 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 17,
+          "group": 0,
+          "id": 179,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            51.2001953125,
+            10.900390625,
+            56.60000000000218,
+            15.700000000002547,
+            48.400000000003274,
+            20.400000000003274
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "polygon",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame5 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 20,
+          "group": 0,
+          "id": 180,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            37.2998046875,
+            7.7001953125,
+            42.400000000003274,
+            11.900000000003274,
+            35.80000000000291,
+            17.200000000002547,
+            28.400000000003274,
+            8.80000000000291,
+            37.400000000003274,
+            12.100000000002183
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "polygon",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame5 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 20,
+          "group": 0,
+          "id": 181,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            17.600000000002183,
+            14.900000000003274,
+            27.200000000002547,
+            21.600000000004002
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame6 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 21,
+          "group": 0,
+          "id": 182,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            43.15465253950242,
+            24.59525439814206,
+            55.395253809205315,
+            35.071444674014856
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame7 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 22,
+          "group": 0,
+          "id": 183,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            38.50000000000182,
+            9.600000000002183,
+            51.80000000000109,
+            17.100000000002183
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame7 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 22,
+          "group": 0,
+          "id": 184,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            52.10000000000218,
+            17.30000000000291,
+            59.400000000001455,
+            21.500000000003638
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        }
+      ],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "41": {
+      "shapes": [
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "gt frame1 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 23,
+          "group": 0,
+          "id": 185,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            17.650000000003274,
+            11.30000000000291,
+            30.55000000000291,
+            21.700000000002547
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "gt frame2 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 24,
+          "group": 0,
+          "id": 186,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            18.850000000002183,
+            12.000000000001819,
+            25.850000000002183,
+            19.50000000000182
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "gt frame2 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 24,
+          "group": 0,
+          "id": 187,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            26.150000000003274,
+            25.00000000000182,
+            34.150000000003274,
+            34.50000000000182
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "gt frame3 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 25,
+          "group": 0,
+          "id": 188,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            24.600000000002183,
+            11.500000000001819,
+            37.10000000000218,
+            18.700000000002547
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "gt frame5 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 27,
+          "group": 0,
+          "id": 189,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            17.863216443472993,
+            36.43614886308387,
+            41.266725327279346,
+            42.765472201610464
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "gt frame5 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 27,
+          "group": 0,
+          "id": 190,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            34.349609375,
+            52.806640625,
+            27.086274131672326,
+            63.1830161588623,
+            40.229131337355284,
+            67.44868033965395,
+            48.87574792004307,
+            59.03264019917333,
+            45.53238950807099,
+            53.3835173651496
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "polygon",
+          "z_order": 0
+        }
+      ],
+      "tags": [],
+      "tracks": [],
+      "version": 0
     }
   },
   "task": {
@@ -6907,6 +7927,844 @@
           "source": "manual",
           "type": "rectangle",
           "z_order": 1
+        }
+      ],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "23": {
+      "shapes": [
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 0,
+          "group": 0,
+          "id": 151,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            44.898003339767456,
+            63.52153968811035,
+            426.46817803382874,
+            271.5955777168274
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 1,
+          "group": 0,
+          "id": 152,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            43.79357561469078,
+            28.97564932703972,
+            136.88880816102028,
+            164.59188774228096
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 2,
+          "group": 0,
+          "id": 153,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            108.50460643768383,
+            165.35334844589306,
+            795.2833482742317,
+            679.8631751060493
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 3,
+          "group": 0,
+          "id": 154,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            40.11789474487341,
+            128.13260302543677,
+            104.97083768844641,
+            182.6914280414585
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 4,
+          "group": 0,
+          "id": 155,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            19.106867015361786,
+            71.99510070085489,
+            200.8463572859764,
+            196.5581221222874
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 5,
+          "group": 0,
+          "id": 156,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            55.147965204716456,
+            27.993821200729144,
+            354.91261003613545,
+            129.34078386128022
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 6,
+          "group": 0,
+          "id": 157,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            55.67655109167208,
+            27.202181529999507,
+            314.5855129838001,
+            333.9054008126259
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 7,
+          "group": 0,
+          "id": 158,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            30.75535711050179,
+            51.1681019723419,
+            245.49246947169377,
+            374.42159963250197
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 8,
+          "group": 0,
+          "id": 159,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            78.72917294502258,
+            28.6186763048172,
+            456.07723474502563,
+            214.25403320789337
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 9,
+          "group": 0,
+          "id": 160,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            40.30229317843805,
+            20.90870136916601,
+            277.9420801371325,
+            141.0943407505747
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [],
+          "elements": [],
+          "frame": 10,
+          "group": 0,
+          "id": 161,
+          "label_id": 73,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            37.5426108896736,
+            44.316280591488976,
+            109.0776273667816,
+            115.21824382543673
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        }
+      ],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "24": {
+      "shapes": [],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "25": {
+      "shapes": [],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "26": {
+      "shapes": [],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "27": {
+      "shapes": [],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "28": {
+      "shapes": [],
+      "tags": [],
+      "tracks": [],
+      "version": 0
+    },
+    "29": {
+      "shapes": [
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j1 frame1 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 0,
+          "group": 0,
+          "id": 169,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            19.650000000003274,
+            13.100000000002183,
+            31.850000000004002,
+            18.900000000001455
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j1 frame2 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 1,
+          "group": 0,
+          "id": 170,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            18.650000000003274,
+            10.500000000001819,
+            28.650000000003274,
+            15.200000000002547
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j1 frame2 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 1,
+          "group": 0,
+          "id": 171,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            18.850000000002183,
+            19.50000000000182,
+            27.05000000000291,
+            24.900000000001455
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j1 frame6 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 5,
+          "group": 0,
+          "id": 172,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            26.25000000000182,
+            16.50000000000182,
+            40.95000000000255,
+            23.900000000001455
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j2 frame1 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 8,
+          "group": 0,
+          "id": 173,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            14.650000000003274,
+            10.000000000001819,
+            25.750000000003638,
+            17.30000000000109
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j2 frame1 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 8,
+          "group": 0,
+          "id": 174,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            30.350000000002183,
+            18.700000000002547,
+            43.05000000000291,
+            26.400000000003274
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j2 frame2 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 9,
+          "group": 0,
+          "id": 175,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            9.200000000002547,
+            34.35000000000218,
+            21.900000000003274,
+            38.55000000000291
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j2 frame2 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 9,
+          "group": 0,
+          "id": 176,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            40.900390625,
+            29.0498046875,
+            48.80000000000291,
+            30.350000000002183,
+            45.10000000000218,
+            39.25000000000182,
+            45.70000000000255,
+            24.450000000002547
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "points",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j2 frame5 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 12,
+          "group": 0,
+          "id": 177,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            16.791015625,
+            32.8505859375,
+            27.858705213058784,
+            37.01258996859542,
+            21.633141273523506,
+            39.77950727505595
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "points",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame1 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 16,
+          "group": 0,
+          "id": 178,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            29.0498046875,
+            14.2998046875,
+            30.350000000002183,
+            22.00000000000182,
+            20.650000000003274,
+            21.600000000002183,
+            20.650000000003274,
+            11.30000000000291
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "polygon",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame2 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 17,
+          "group": 0,
+          "id": 179,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            51.2001953125,
+            10.900390625,
+            56.60000000000218,
+            15.700000000002547,
+            48.400000000003274,
+            20.400000000003274
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "polygon",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame5 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 20,
+          "group": 0,
+          "id": 180,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            37.2998046875,
+            7.7001953125,
+            42.400000000003274,
+            11.900000000003274,
+            35.80000000000291,
+            17.200000000002547,
+            28.400000000003274,
+            8.80000000000291,
+            37.400000000003274,
+            12.100000000002183
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "polygon",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame5 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 20,
+          "group": 0,
+          "id": 181,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            17.600000000002183,
+            14.900000000003274,
+            27.200000000002547,
+            21.600000000004002
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame6 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 21,
+          "group": 0,
+          "id": 182,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            43.15465253950242,
+            24.59525439814206,
+            55.395253809205315,
+            35.071444674014856
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame7 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 22,
+          "group": 0,
+          "id": 183,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            38.50000000000182,
+            9.600000000002183,
+            51.80000000000109,
+            17.100000000002183
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "j3 frame7 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 22,
+          "group": 0,
+          "id": 184,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            52.10000000000218,
+            17.30000000000291,
+            59.400000000001455,
+            21.500000000003638
+          ],
+          "rotation": 0.0,
+          "source": "manual",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "gt frame1 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 23,
+          "group": 0,
+          "id": 185,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            17.650000000003274,
+            11.30000000000291,
+            30.55000000000291,
+            21.700000000002547
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "gt frame2 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 24,
+          "group": 0,
+          "id": 186,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            18.850000000002183,
+            12.000000000001819,
+            25.850000000002183,
+            19.50000000000182
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "gt frame2 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 24,
+          "group": 0,
+          "id": 187,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            26.150000000003274,
+            25.00000000000182,
+            34.150000000003274,
+            34.50000000000182
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "gt frame3 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 25,
+          "group": 0,
+          "id": 188,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            24.600000000002183,
+            11.500000000001819,
+            37.10000000000218,
+            18.700000000002547
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "gt frame5 n1"
+            }
+          ],
+          "elements": [],
+          "frame": 27,
+          "group": 0,
+          "id": 189,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            17.863216443472993,
+            36.43614886308387,
+            41.266725327279346,
+            42.765472201610464
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "rectangle",
+          "z_order": 0
+        },
+        {
+          "attributes": [
+            {
+              "spec_id": 15,
+              "value": "gt frame5 n2"
+            }
+          ],
+          "elements": [],
+          "frame": 27,
+          "group": 0,
+          "id": 190,
+          "label_id": 77,
+          "occluded": false,
+          "outside": false,
+          "points": [
+            34.349609375,
+            52.806640625,
+            27.086274131672326,
+            63.1830161588623,
+            40.229131337355284,
+            67.44868033965395,
+            48.87574792004307,
+            59.03264019917333,
+            45.53238950807099,
+            53.3835173651496
+          ],
+          "rotation": 0.0,
+          "source": "Ground truth",
+          "type": "polygon",
+          "z_order": 0
         }
       ],
       "tags": [],

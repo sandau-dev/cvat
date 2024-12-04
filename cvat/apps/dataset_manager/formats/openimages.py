@@ -1,5 +1,5 @@
 # Copyright (C) 2021-2022 Intel Corporation
-# Copyright (C) 2023 CVAT.ai Corporation
+# Copyright (C) 2023-2024 CVAT.ai Corporation
 #
 # SPDX-License-Identifier: MIT
 
@@ -11,7 +11,7 @@ from datumaro.plugins.open_images_format import OpenImagesPath
 from datumaro.util.image import DEFAULT_IMAGE_META_FILE_NAME
 from pyunpack import Archive
 
-from cvat.apps.dataset_manager.bindings import (GetCVATDataExtractor,
+from cvat.apps.dataset_manager.bindings import (GetCVATDataExtractor, detect_dataset,
     find_dataset_root, import_dm_annotations, match_dm_item)
 from cvat.apps.dataset_manager.util import make_zip_archive
 
@@ -39,13 +39,13 @@ def find_item_ids(path):
 
 @exporter(name='Open Images V6', ext='ZIP', version='1.0')
 def _export(dst_file, temp_dir, task_data, save_images=False):
-    dataset = Dataset.from_extractors(GetCVATDataExtractor(
-        task_data, include_images=save_images), env=dm_env)
-    dataset.transform(RotatedBoxesToPolygons)
-    dataset.transform('polygons_to_masks')
-    dataset.transform('merge_instance_segments')
+    with GetCVATDataExtractor(task_data, include_images=save_images) as extractor:
+        dataset = Dataset.from_extractors(extractor, env=dm_env)
+        dataset.transform(RotatedBoxesToPolygons)
+        dataset.transform('polygons_to_masks')
+        dataset.transform('merge_instance_segments')
 
-    dataset.export(temp_dir, 'open_images', save_images=save_images)
+        dataset.export(temp_dir, 'open_images', save_images=save_images)
 
     make_zip_archive(temp_dir, dst_file)
 
@@ -75,6 +75,7 @@ def _import(src_file, temp_dir, instance_data, load_data_callback=None, **kwargs
             if frame_info is not None:
                 image_meta[item_id] = (frame_info['height'], frame_info['width'])
 
+    detect_dataset(temp_dir, format_name='open_images', importer=dm_env.importers.get('open_images'))
     dataset = Dataset.import_from(temp_dir, 'open_images',
         image_meta=image_meta, env=dm_env)
     dataset = MaskToPolygonTransformation.convert_dataset(dataset, **kwargs)

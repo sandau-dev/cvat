@@ -1,5 +1,5 @@
 # Copyright (C) 2021-2022 Intel Corporation
-# Copyright (C) 2023 CVAT.ai Corporation
+# Copyright (C) 2023-2024 CVAT.ai Corporation
 #
 # SPDX-License-Identifier: MIT
 
@@ -8,7 +8,7 @@ import zipfile
 from datumaro.components.dataset import Dataset
 from datumaro.components.extractor import ItemTransform
 
-from cvat.apps.dataset_manager.bindings import GetCVATDataExtractor, \
+from cvat.apps.dataset_manager.bindings import GetCVATDataExtractor, detect_dataset, \
     import_dm_annotations
 from .registry import dm_env
 
@@ -27,11 +27,13 @@ class RemoveTrackingInformation(ItemTransform):
 
 @exporter(name='Kitti Raw Format', ext='ZIP', version='1.0', dimension=DimensionType.DIM_3D)
 def _export_images(dst_file, temp_dir, task_data, save_images=False):
-    dataset = Dataset.from_extractors(GetCVATDataExtractor(
+    with GetCVATDataExtractor(
         task_data, include_images=save_images, format_type="kitti_raw",
-        dimension=DimensionType.DIM_3D), env=dm_env)
-    dataset.transform(RemoveTrackingInformation)
-    dataset.export(temp_dir, 'kitti_raw', save_images=save_images, reindex=True)
+        dimension=DimensionType.DIM_3D,
+    ) as extractor:
+        dataset = Dataset.from_extractors(extractor, env=dm_env)
+        dataset.transform(RemoveTrackingInformation)
+        dataset.export(temp_dir, 'kitti_raw', save_images=save_images, reindex=True)
 
     make_zip_archive(temp_dir, dst_file)
 
@@ -40,6 +42,7 @@ def _export_images(dst_file, temp_dir, task_data, save_images=False):
 def _import(src_file, temp_dir, instance_data, load_data_callback=None, **kwargs):
     if zipfile.is_zipfile(src_file):
         zipfile.ZipFile(src_file).extractall(temp_dir)
+        detect_dataset(temp_dir, format_name='kitti_raw', importer=dm_env.importers.get('kitti_raw'))
         dataset = Dataset.import_from(temp_dir, 'kitti_raw', env=dm_env)
     else:
         dataset = Dataset.import_from(src_file.name, 'kitti_raw', env=dm_env)

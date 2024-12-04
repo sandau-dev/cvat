@@ -1,5 +1,5 @@
 // Copyright (C) 2021-2022 Intel Corporation
-// Copyright (C) 2023 CVAT.ai Corporation
+// Copyright (C) 2023-2024 CVAT.ai Corporation
 //
 // SPDX-License-Identifier: MIT
 
@@ -11,7 +11,7 @@ import {
 
 import { omit } from 'lodash';
 import { DownOutlined } from '@ant-design/icons';
-import Dropdown from 'antd/lib/dropdown';
+import Popover from 'antd/lib/popover';
 import Menu from 'antd/lib/menu';
 import Button from 'antd/lib/button';
 import Modal from 'antd/lib/modal';
@@ -203,7 +203,7 @@ function FiltersModalComponent(): JSX.Element {
         }
     }, [visible]);
 
-    const applyFilters = (filtersData: any[]): void => {
+    const applyFilters = (filtersData: object[]): void => {
         dispatch(changeAnnotationsFilters(filtersData));
         dispatch(fetchAnnotationsAsync());
         dispatch(showFilters(false));
@@ -223,7 +223,7 @@ function FiltersModalComponent(): JSX.Element {
 
     const isModalConfirmable = (): boolean => (
         (QbUtils.queryString(immutableTree, config) || '')
-            .trim().length > 0 && QbUtils.isValidTree(immutableTree)
+            .trim().length > 0 && QbUtils.isValidTree(immutableTree, config)
     );
 
     const renderBuilder = (builderProps: any): JSX.Element => (
@@ -268,7 +268,7 @@ function FiltersModalComponent(): JSX.Element {
     return (
         <Modal
             className={visible ? 'cvat-filters-modal cvat-filters-modal-visible' : 'cvat-filters-modal'}
-            visible={visible}
+            open={visible}
             closable={false}
             width={800}
             destroyOnClose
@@ -303,10 +303,17 @@ function FiltersModalComponent(): JSX.Element {
         >
             <div
                 key='used'
-                className='recently-used-wrapper'
+                className='cvat-recently-used-filters-wrapper'
                 style={{ display: filters.length ? 'inline-block' : 'none' }}
             >
-                <Dropdown overlay={menu}>
+                <Popover
+                    destroyTooltipOnHide
+                    trigger='click'
+                    placement='top'
+                    overlayInnerStyle={{ padding: 0 }}
+                    overlayClassName='cvat-recently-used-filters-dropdown'
+                    content={menu}
+                >
                     <Button
                         type='text'
                         className='cvat-filters-modal-recently-used-button'
@@ -315,7 +322,7 @@ function FiltersModalComponent(): JSX.Element {
                         {' '}
                         <DownOutlined />
                     </Button>
-                </Dropdown>
+                </Popover>
             </div>
             { !!config.fields && (
                 <Query
