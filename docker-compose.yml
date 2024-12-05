@@ -242,7 +242,7 @@ services:
 
   cvat_ui:
     container_name: cvat_ui
-    image: cvat/ui:${CVAT_VERSION:-v2.23.0}
+    image: sandau.azurecr.io/cvat-ui:${CVAT_VERSION:-v2.23.0}
     restart: always
     depends_on:
       - cvat_server

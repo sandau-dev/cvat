@@ -1,0 +1,52 @@
+version: '3'
+
+vars:
+  CVAT_VERSION: v2.23.0
+  ACME_EMAIL: matt@sandau.dev
+
+tasks:
+  build:
+    cmds:
+      - docker compose -f docker-compose.yml -f docker-compose.dev.yml build
+
+  run:
+    cmds:
+      - docker compose -f docker-compose.yml -f docker-compose.https.yml up -d
+
+  run-serverless-dev:
+    cmds:
+      - docker compose -f docker-compose.yml -f components/serverless/docker-compose.serverless.yml up -d --force-recreate
+
+  run-serverless:
+    cmds:
+      - docker compose -f docker-compose.yml -f docker-compose.https.yml -f components/serverless/docker-compose.serverless.yml up -d
+
+  stop:
+    cmds:
+      - docker compose -f docker-compose.yml -f components/serverless/docker-compose.serverless.yml down
+
+  deploy-sam:
+    cmds:
+      - cd serverless && ./deploy_gpu.sh pytorch/facebookresearch/segment_anything_2/nuclio/
+
+  deploy-yolo:
+    cmds:
+      - cd serverless && ./deploy_gpu.sh pytorch/ultralytics/yolov8/nuclio/
+
+  logs:
+    cmds:
+      - docker compose logs -f
+
+  run-serverless-prod:
+    cmds:
+      - export CVAT_HOST=cvat.sandau.dev
+      - export CVAT_DATA_MNT_PATH=/mnt/azure_nfs/sandau_cvat_docker/cvat_cvat_data/
+      - task run-serverless
+      - task deploy-sam
+      - task deploy-yolo
+
+  run-local-dev:
+    cmds:
+      - export CVAT_HOST=dextop.local
+      - export CVAT_DATA_MNT_PATH=/var/nfs/nfs_storage/cvat_data/
+      - task run-serverless-dev
