@@ -37,7 +37,10 @@ tasks:
     cmds:
       - docker compose logs -f
 
+  # dotenv files can be found on Azure - configuration-resources container
   run-serverless-prod:
+    dotenv:
+      - sandau_cvat_prod.env
     cmds:
       - export CVAT_HOST=cvat.sandau.dev
       - export CVAT_DATA_MNT_PATH=/mnt/azure_nfs/sandau_cvat_docker/cvat_cvat_data/
@@ -45,7 +48,10 @@ tasks:
       - task deploy-sam
       - task deploy-yolo
 
+# dotenv files can be found on Azure - configuration-resources container
   run-local-dev:
+    dotenv:
+      - sandau_cvat_dev.env
     cmds:
       - export CVAT_HOST=dextop.local
       - export CVAT_DATA_MNT_PATH=/var/nfs/nfs_storage/cvat_data/

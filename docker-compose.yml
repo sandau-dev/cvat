@@ -28,8 +28,8 @@ x-clickhouse-env: &clickhouse-env
   CLICKHOUSE_HOST: clickhouse
   CLICKHOUSE_PORT: 8123
   CLICKHOUSE_DB: cvat
-  CLICKHOUSE_USER: user
-  CLICKHOUSE_PASSWORD: user
+  CLICKHOUSE_USER: ${CLICKHOUSE_USER}
+  CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
 
 services:
   cvat_db:
@@ -37,7 +37,7 @@ services:
     image: postgres:15-alpine
     restart: always
     environment:
-      POSTGRES_USER: root
+      POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: cvat
       POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
