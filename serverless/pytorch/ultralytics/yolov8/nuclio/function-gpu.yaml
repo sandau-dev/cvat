@@ -19,7 +19,7 @@ metadata:
 
 spec:
   description: YOLO v8 VAW Detector v1
-  runtime: 'python:3.9'
+  runtime: 'python:3.10'
   handler: main:handler
   eventTimeout: 30s
   build:

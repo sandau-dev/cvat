@@ -1,6 +1,8 @@
 version: '3'
 
-vars:
+dotenv:
+  - sandau_cvat.env
+env:
   CVAT_VERSION: v2.23.0
   ACME_EMAIL: matt@sandau.dev
 
@@ -33,26 +35,34 @@ tasks:
     cmds:
       - cd serverless && ./deploy_gpu.sh pytorch/ultralytics/yolov8/nuclio/
 
+  deploy-siammask:
+    cmds:
+      - cd serverless && ./deploy_gpu.sh pytorch/foolwood/siammask/nuclio/
+
   logs:
     cmds:
       - docker compose logs -f
 
   # dotenv files can be found on Azure - configuration-resources container
   run-serverless-prod:
-    dotenv:
-      - sandau_cvat_prod.env
     cmds:
-      - export CVAT_HOST=cvat.sandau.dev
-      - export CVAT_DATA_MNT_PATH=/mnt/azure_nfs/sandau_cvat_docker/cvat_cvat_data/
+      # NOTE: running this as `task run...` vs `task: run...` handles enviroment variables as expected
+      - |
+        if ! command -v nuctl &> /dev/null; then
+          echo "nuctl not found, installing...";
+          curl -s https://api.github.com/repos/nuclio/nuclio/releases/latest \
+            | grep -i "browser_download_url.*nuctl.*$(uname)" \
+            | cut -d : -f 2,3 \
+            | tr -d \" \
+            | wget -O nuctl -qi - && chmod +x nuctl
+          sudo mv nuctl /usr/local/bin/nuctl
+        fi
       - task run-serverless
-      - task deploy-sam
-      - task deploy-yolo
+      - task: deploy-sam
+      - task: deploy-yolo
 
 # dotenv files can be found on Azure - configuration-resources container
   run-local-dev:
-    dotenv:
-      - sandau_cvat_dev.env
     cmds:
-      - export CVAT_HOST=dextop.local
-      - export CVAT_DATA_MNT_PATH=/var/nfs/nfs_storage/cvat_data/
+      # NOTE: running this as `task run...` vs `task: run...` handles enviroment variables as expected
       - task run-serverless-dev
